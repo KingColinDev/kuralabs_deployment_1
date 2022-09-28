@@ -1,0 +1,45 @@
+Kura Labs- Cohort 3, Deployment 1 Documentation 
+By Colinford Mattis
+
+This document is to provide the material documentation and insights related to my completion of Deployment 1 for Kura Labs, Cohort 3. All rights reserved by author, provided that a fair use license is hereby granted for any educational purposes. Moreover, I welcome any and all feedback and hopefully this document is of service. (Please note, the assignment’s instructions are reproduced as appropriate below, [along with my notes and insights related to the instructed actions in brackets].) 
+
+Section 1: Install Jenkins on an EC2
+-create an Ubuntu EC2
+-[Log onto AWS account (create such an account if you do not have one) and navagate to & execute an EC2 instance.]
+-EC2 will need port 80, 8080, and 22 open 
+-[please note, port 22 open is the default for ssh selection (as of the writing of this document). Thus, in addition to that, under “Network Setting” section, add two additional security group rules to allow for (1) port 80 (via HTTP) and port 8080 (via custom TCP)]
+-[I also set the source for all of the security group rules/ports to Anywhere, which allows for any IP/user to access the instance. It is possible to limit this, but that was not part of the deployment and thus beyond the scope here. But, for security, this would be an area for improvement if so desired.]
+-[Create key pair to securely access the aforementioned EC2 Instance, here, mine was named “KuraDeployment1CKM” with RSA encryption and .pem file format. Download this file on your Virtual Machine, as well as make it readable only therein (ie in CLI execute the following command: sudo chmod 400 KuraDeployment1CKM.pem)]
+-[To log into the EC2, execute the following on CLI: ssh -i [absolute path to private key locally] ubantu@[IP address given for EC2 instance (can be found on AWS dashboard)]
+-enter the commands below to install Jenkins:
+$sudo apt update && sudo apt install default-jre
+$wget -q -O -
+https://pkg.jenkins.io/debian-stable/jenkins.io.
+key |sudo gpg --dearmor -o
+/usr/share/keyrings/jenkins.gpg
+$sudo sh -c 'echo deb
+[signed-by=/usr/share/keyrings/jenkins.gpg]
+http://pkg.jenkins.io/debian-stable binary/ >
+/etc/apt/sources.list.d/jenkins.list'
+$sudo apt update && sudo apt install jenkins -y
+$sudo systemctl start jenkins
+$sudo systemctl status jenkins
+
+-[The commands above to install Jenkins can be rendered into a bash script for easy/quick use, which should be done if you expect to perform this installation multiple times.]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!During the installation of Java (as indicated above) my Virtual Box VM crashed and when I attempt to restart, I receive error and unable to access my VM. (Please see full error notice below.) In consideration of assignment deadline, I will move onto the Diagram portion of this assignment, under the favorable assumption(s) that my VM continued to work and I was successful in effectuating the deployment. I will troubleshoot/resolve the VM issue and complete the deployment effectuation in due course.!!!!!!!  
+
+(Failed to open a session for the virtual machine Colin VM Kura
+
+Could not open the medium 'D:\Colin Ubuntu Linux VM\Colin VM Kura\Colin VM Kura\Colin VM Kura.vdi'.
+
+VDI: error reading pre-header in 'D:\Colin Ubuntu Linux VM\Colin VM Kura\Colin VM Kura\Colin VM Kura.vdi' (VERR_INVALID_FUNCTION).
+
+VD: error VERR_VD_VDI_INVALID_HEADER opening image file 'D:\Colin Ubuntu Linux VM\Colin VM Kura\Colin VM Kura\Colin VM Kura.vdi' (VERR_VD_VDI_INVALID_HEADER).
+
+Result Code: E_FAIL (0x80004005)
+Component: MediumWrap
+Interface: IMedium {ad47ad09-787b-44ab-b343-a082a3f2dfb1})
+
+
+
